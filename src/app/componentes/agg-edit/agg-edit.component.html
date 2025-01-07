@@ -1,0 +1,62 @@
+<div *ngIf="isOpen" class="modal-overlay">
+    <div class="modal-container">
+        <h2 class="text-center mb-4">Agregar Nueva Casa</h2>
+
+        <form (ngSubmit)="onSubmit()" class="form-container">
+            <div class="form-row">
+                <label for="id" class="form-label">Código</label>
+                <input type="number" id="id" [(ngModel)]="oCasa.id" name="id" class="form-input" required>
+            </div>
+
+            <div class="form-row">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" id="nombre" [(ngModel)]="oCasa.nombre" name="nombre" class="form-input" required>
+            </div>
+
+            <div class="form-row">
+                <label for="ciudad" class="form-label">Ciudad</label>
+                <input type="text" id="ciudad" [(ngModel)]="oCasa.ciudad" name="ciudad" class="form-input" required>
+            </div>
+
+            <div class="form-row">
+                <label for="provincia" class="form-label">Provincia</label>
+                <input type="text" id="provincia" [(ngModel)]="oCasa.provincia" name="provincia" class="form-input" required>
+            </div>
+
+            <div class="form-row">
+                <label for="unidades" class="form-label">Unidades</label>
+                <input type="text" id="unidades" [(ngModel)]="oCasa.unidades" name="unidades" class="form-input" required>
+            </div>
+
+            <div class="form-row">
+                <label for="foto" class="form-label">Foto</label>
+                <input type="text" id="foto" [(ngModel)]="oCasa.foto" name="foto" class="form-input" required>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">¿Wifi?</label><br>
+                <label>
+                    <input type="radio" [(ngModel)]="oCasa.wifi" name="wifi" [value]="true"> Sí
+                </label>
+                <label>
+                    <input type="radio" [(ngModel)]="oCasa.wifi" name="wifi" [value]="false"> No
+                </label>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">¿Lavandería?</label><br>
+                <label>
+                    <input type="radio" [(ngModel)]="oCasa.lavanderia" name="lavanderia" [value]="true"> Sí
+                </label>
+                <label>
+                    <input type="radio" [(ngModel)]="oCasa.lavanderia" name="lavanderia" [value]="false"> No
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="button" (click)="closeModal()" class="btn btn-secondary">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
