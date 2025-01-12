@@ -1,7 +1,6 @@
 <div *ngIf="isOpen" class="modal-overlay">
     <div class="modal-container">
         <h2 class="text-center mb-4">Agregar Nueva Casa</h2>
-
         <form (ngSubmit)="onSubmit()" class="form-container">
             <div class="form-row">
                 <label for="id" class="form-label">Código</label>
@@ -20,12 +19,14 @@
 
             <div class="form-row">
                 <label for="provincia" class="form-label">Provincia</label>
-                <input type="text" id="provincia" [(ngModel)]="oCasa.provincia" name="provincia" class="form-input" required>
+                <input type="text" id="provincia" [(ngModel)]="oCasa.provincia" name="provincia" class="form-input"
+                    required>
             </div>
 
             <div class="form-row">
                 <label for="unidades" class="form-label">Unidades</label>
-                <input type="text" id="unidades" [(ngModel)]="oCasa.unidades" name="unidades" class="form-input" required>
+                <input type="text" id="unidades" [(ngModel)]="oCasa.unidades" name="unidades" class="form-input"
+                    required>
             </div>
 
             <div class="form-row">

@@ -1,15 +1,16 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { LocalizacionCasaComponent } from '../localizacion-casa/localizacion-casa.component';
 import { CasaService } from '../../servicios/casa.service';
 import { casa } from '../../entidades/casa';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [CommonModule, LocalizacionCasaComponent, FormsModule, RouterModule],
+  imports: [CommonModule, LocalizacionCasaComponent, FormsModule, RouterModule, HttpClientModule],
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.css'
 })
@@ -18,16 +19,23 @@ export class InicioComponent {
   ListaFiltrada: casa[] = [];
   CiudadFiltrada: string = '';
   noResults: boolean = false;
-  oservice: CasaService = inject(CasaService);
+  errorMessage: string = '';  // Mensaje de error
 
-  constructor(private cservice: CasaService) {
-    this.Lista = this.oservice.getLista();
-  }
+  constructor(private cservice: CasaService) { }
 
   ngOnInit(): void {
-    this.Lista = this.cservice.getLista();
-    this.ListaFiltrada = this.Lista;
+    this.cservice.getLista().subscribe(
+      (data) => {
+        this.Lista = data;
+        this.ListaFiltrada = [...data]; 
+      },
+      (error) => {
+        console.error('Error al cargar las casas:', error);
+        this.errorMessage = 'Error al cargar la lista de casas. Intenta nuevamente.';
+      }
+    );
   }
+
 
   filtradoCiudad(): void {
     if (this.CiudadFiltrada.trim() === '') {

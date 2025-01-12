@@ -3,11 +3,12 @@ import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/
 import { FormsModule } from '@angular/forms';
 import { casa } from '../../entidades/casa';
 import { CasaService } from '../../servicios/casa.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-agg-edit',
   standalone: true,
-  imports: [NgIf, FormsModule],
+  imports: [NgIf, FormsModule, HttpClientModule],
   templateUrl: './agg-edit.component.html',
   styleUrl: './agg-edit.component.css'
 })
@@ -22,10 +23,10 @@ export class AggEditComponent {
     ciudad: '',
     provincia: '',
     foto: [] as string[],
-    unidades: 0,      // Debe ser un número
-    wifi: false,      // Debe ser booleano
-    lavanderia: false, // Debe ser booleano
-  }
+    unidades: 0,
+    wifi: false,
+    lavanderia: false,
+  };
 
   public resetCasa() {
     this.oCasa = {
@@ -37,52 +38,57 @@ export class AggEditComponent {
       unidades: 0,
       wifi: false,
       lavanderia: false,
-    }
+    };
   }
 
   constructor(private cservice: CasaService) { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['selectedCasa'] && this.selectedCasa) {
-      this.oCasa = {
-        ...this.selectedCasa,
-      };
+      this.oCasa = { ...this.selectedCasa }; // Asigna la casa seleccionada
     } else if (!this.selectedCasa) {
       this.resetCasa();
     }
   }
 
-
   closeModal() {
     this.close.emit();
   }
 
-  onCloseModal() {
-    this.closeModal();
-  }
-
   onSubmit() {
-    // Convierte los datos según el tipo adecuado, usando la interfaz 'casa'
+    // Asegúrate de que oCasa.foto sea un arreglo incluso si solo contiene una URL
     const casaData: casa = {
       id: this.oCasa.id,
       nombre: this.oCasa.nombre,
       ciudad: this.oCasa.ciudad,
       provincia: this.oCasa.provincia,
-      foto: this.oCasa.foto,
-      unidades: Number(this.oCasa.unidades), // Asegúrate de que unidades sea un número
-      wifi: this.oCasa.wifi,                // Es un booleano
-      lavanderia: this.oCasa.lavanderia     // Es un booleano
+      foto: Array.isArray(this.oCasa.foto) ? this.oCasa.foto : [this.oCasa.foto],  // Garantiza que foto sea un arreglo
+      unidades: Number(this.oCasa.unidades),
+      wifi: this.oCasa.wifi,
+      lavanderia: this.oCasa.lavanderia,
     };
-
+  
     if (this.selectedCasa) {
       // Si ya existe una casa seleccionada, actualiza
-      this.cservice.updateCasa(casaData);
+      this.cservice.updateCasa(casaData).subscribe(
+        () => {
+          this.closeModal();  // Cierra el modal después de actualizar
+        },
+        (error) => {
+          console.error('Error al actualizar la casa:', error);
+        }
+      );
     } else {
       // Si no, agrega una nueva casa
-      this.cservice.agregarCasa(casaData);
+      this.cservice.agregarCasa(casaData).subscribe(
+        () => {
+          this.closeModal();  // Cierra el modal después de agregar
+        },
+        (error) => {
+          console.error('Error al agregar la casa:', error);
+        }
+      );
     }
-
-    this.closeModal();  // Cierra el modal después de agregar o actualizar
   }
-
+  
 }

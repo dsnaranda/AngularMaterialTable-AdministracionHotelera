@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { InicioComponent } from "./componentes/inicio/inicio.component";
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
     selector: 'app-root',
@@ -18,7 +19,7 @@ import { InicioComponent } from "./componentes/inicio/inicio.component";
     </main>
   `,
     styleUrl: './app.component.css',
-    imports: [RouterOutlet, RouterLink]
+    imports: [RouterOutlet, RouterLink ]
 })
 export class AppComponent {
   title = 'SistemaGuiaAngularEspanol';
