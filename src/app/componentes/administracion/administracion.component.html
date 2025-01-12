@@ -1,5 +1,64 @@
-<button class="primary" (click)="isOpen=true; selectedCasa=null"> Agregar</button>
-<button class="primary" (click)="logout()">Cerrar sesión</button>
+<div class="header-container">
+    <div class="user-info">
+        <p><strong>Nombre:</strong> {{ user.nombre }}</p>
+        <p><strong>Tipo:</strong> {{ user.tipo }}</p>
+    </div>
+
+    <div class="button-container">
+        <button mat-raised-button color="primary" (click)="isOpen=true; selectedCasa=null">Agregar</button>
+        <button mat-raised-button color="warn" (click)="logout()">Cerrar sesión</button>
+    </div>
+</div>
+
+<div class="card-container">
+    <mat-card class="info-card">
+        <mat-card-header>
+            <mat-card-title>Cantidad de casas registradas</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="card-content">
+                <span class="value">{{ Lista.length }}</span>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="info-card">
+        <mat-card-header>
+            <mat-card-title>Casas con Wifi</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="card-content">
+                <mat-progress-bar mode="determinate" [value]="porcentajeWifi" color="primary"></mat-progress-bar>
+                <span class="percentage">{{ porcentajeWifi | number:'1.2-2' }}%</span>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="info-card">
+        <mat-card-header>
+            <mat-card-title>Casas con Lavandería</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="card-content">
+                <mat-progress-bar mode="determinate" [value]="porcentajeLavanderia" color="accent"></mat-progress-bar>
+                <span class="percentage">{{ porcentajeLavanderia | number:'1.2-2' }}%</span>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="info-card">
+        <mat-card-header>
+            <mat-card-title>Casas sin Wifi ni Lavandería</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="card-content">
+                <mat-progress-bar mode="determinate" [value]="porcentajeSinWifiLavanderia"
+                    color="warn"></mat-progress-bar>
+                <span class="percentage">{{ porcentajeSinWifiLavanderia | number:'1.2-2' }}%</span>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
 
 
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
@@ -49,8 +108,8 @@
     <ng-container matColumnDef="acciones">
         <th mat-header-cell *matHeaderCellDef> Acciones </th>
         <td mat-cell *matCellDef="let element">
-            <button mat-button class="primary" (click)="eliminarCasa(element._id)">Eliminar</button>
-            <button mat-button class="primary" (click)="editCasa(element)">Editar</button>
+            <button mat-button class="red-button" (click)="eliminarCasa(element._id)">Eliminar</button>
+            <button mat-button class="yellow-button" (click)="editCasa(element)">Editar</button>
         </td>
     </ng-container>
 
@@ -60,6 +119,6 @@
 
 </table>
 
-<mat-paginator [pageSize]="10" showFirstLastButtons></mat-paginator>
+<mat-paginator [pageSize]="3" showFirstLastButtons></mat-paginator>
 
 <app-agg-edit [isOpen]="isOpen" [selectedCasa]="selectedCasa" (close)="onCloseModal()"></app-agg-edit>
