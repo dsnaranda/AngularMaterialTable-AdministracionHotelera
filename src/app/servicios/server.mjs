@@ -33,11 +33,10 @@ const getCasas = async () => {
     }
 };
 
-// Obtener una casa por ID
 const getCasaById = async (id) => {
     try {
         const database = await getConnection();
-        const casa = await database.collection("casas").findOne({ _id: new ObjectId(id) });
+        const casa = await database.collection("casas").findOne({ id: parseInt(id, 10) });  // Convertir a número
         return casa;
     } catch (error) {
         console.error("Error al obtener la casa por ID:", error);
@@ -166,7 +165,7 @@ app.post("/api/login", async (req, res) => {
     const { correo, password } = req.body;
 
     try {
-        const db = await getConnection();  
+        const db = await getConnection();
         const usuario = await db.collection("usuarios").findOne({ correo });
 
         if (!usuario) {

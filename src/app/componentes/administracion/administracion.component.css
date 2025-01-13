@@ -137,3 +137,13 @@ button.mat-raised-button.color-warn:hover {
 .yellow-button:hover {
     background-color: rgb(139, 95, 0);
 }
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.chart {
+    margin: 10px;
+}

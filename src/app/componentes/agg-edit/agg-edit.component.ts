@@ -53,6 +53,7 @@ export class AggEditComponent {
 
   closeModal() {
     this.close.emit();
+    window.location.reload();  
   }
 
   onSubmit() {
